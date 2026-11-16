@@ -1,3 +1,4 @@
+from beer_timeseries.paths import TABLES, output
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -15,7 +16,7 @@ import plotly.graph_objects as go
 import matplotlib.dates as mdates
 from scipy import stats
 from scipy.special import  inv_boxcox
-from ProjektDekompozycja import data, polyreg
+from scripts.decomposition import data, polyreg
 from scipy.stats import percentileofscore
 from scipy.stats import t
 import torch
@@ -49,8 +50,8 @@ future_data = np.array([17.08, 17.2, 17.42, 17.38, 17.35,
                17.36, 16.18, 16.18, 15.94, 15.95,
                16.1, 16.1, 16.58, 16.83, 13.67, 14.37]) * 100 # z milionów hektolitrów (10^8) na megalitry (10^6)
 
-sarima_predict = pd.read_csv('forecast_output_sarima.csv')
-ar_predict = pd.read_csv('prediction_ar4.csv')
+sarima_predict = pd.read_csv(str(TABLES / 'forecast_output_sarima.csv'))
+ar_predict = pd.read_csv(str(TABLES / 'prediction_ar4.csv'))
 
 #Skumulowanie wartości dla SARIMY
 sarima_predict['year'] = sarima_predict['time'].astype(int)
@@ -114,6 +115,6 @@ plt.title('Produkcja piwa w Australii - predykcja', loc='center')
 plt.xlabel('Lata')
 plt.ylabel('Megalitry')
 plt.tight_layout()
-plt.savefig('wykres8.png', format='png', bbox_inches='tight')
+plt.savefig(output('wykres8.png'), format='png', bbox_inches='tight')
 plt.show()
 

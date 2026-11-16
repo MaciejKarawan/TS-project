@@ -1,16 +1,17 @@
-# Australian Beer Production — Time Series Analysis
+# Australian beer production — time series
 
-Academic project analysing quarterly Australian beer production through decomposition, diagnostics and forecasting.
+Install Python 3.11+ and `python -m pip install -e .`. For Chronos forecasts use `python -m pip install -e ".[forecast]"`.
 
-## Contents
+- `src/beer_timeseries/`: reusable helpers, including the attributed Diebold–Mariano implementation.
+- `scripts/`: decomposition, diagnostics and the working forecast variant.
+- `data/raw/`: original CSV inputs; `results/tables/` and `results/figures/`: retained reference results.
+- `reports/`: submitted report. `archive/`: distinct historical scripts, not active entry points.
 
-- `ProjektDekompozycja.py`: decomposition and trend modelling.
-- `ProjektAnaliza.py`: statistical analysis and diagnostics.
-- `ProjektPredykcja.py`: forecasting and comparison with saved predictions.
-- `data/`, CSV files and `Wykresy/`: input data and saved results.
-- `Projekt-return/`: retained submitted/report variant, including its original code and PDF report.
-- `Projekt.py`: pre-existing file retained from this repository.
+From the repository root: `python -m scripts.decomposition`, `python -m scripts.analysis`, or `python -m scripts.forecast`.
+These are experiment scripts: analysis/forecast import the decomposition script, which runs decomposition and plots. They can access the online ausbeer dataset; Chronos downloads model weights. New results go to `results/generated/`, not the retained reference figures/tables.
 
-The original structure and alternative versions are preserved. Scripts expect particular working directories and may open plots, write files or fetch the `ausbeer` dataset. Dependencies include NumPy, pandas, SciPy, matplotlib, seaborn, statsmodels, Plotly and pyreadr. Local helper modules are included where found in the adjacent course directory.
+The working and submitted forecasts differ in Chronos arguments and aggregation. The submitted version is preserved verbatim at `archive/submitted/ProjektPredykcja.py`; neither is declared scientifically superior. The early script in archive requires the unavailable course helper Lista2. See `docs/file-migration.json` for every original path and retained identical content. Versions of the original environment are unknown; dependency declarations are not a lockfile. Numerical experiments were not rerun during organization.
 
-The original `Projekt.py` also imports a course module named `Lista2`, which is not part of the supplied project folder. The `dm_test.py` helper is included with its original author attribution preserved. Python syntax was checked during import; full execution and reproducibility have not been validated. No licence was added or changed.
+## Migration checks
+
+After installation: `python -m unittest discover -s tests -v`. These small checks do not run the full research experiments.

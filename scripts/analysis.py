@@ -1,3 +1,4 @@
+from beer_timeseries.paths import TABLES, output
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -13,10 +14,10 @@ from statsmodels.tsa.stattools import arma_order_select_ic
 import pyreadr
 import plotly.graph_objects as go
 import matplotlib.dates as mdates
-from dm_test import dm_test
+from beer_timeseries.dm_test import dm_test
 from scipy import stats
 from scipy.special import  inv_boxcox
-from ProjektDekompozycja import data, polyreg
+from scripts.decomposition import data, polyreg
 from scipy.stats import percentileofscore
 from scipy.stats import t
 
@@ -134,7 +135,7 @@ plt.title('Wykres QQ dla szeregu z uśrednionymi obserwacjami odstającymi', loc
 plt.tight_layout()
 ax.set_ylabel('Kwantyle próbkowe')
 ax.set_xlabel('Kwantyle teoretyczne')
-plt.savefig('wykres5.png', format='png', bbox_inches='tight')
+plt.savefig(output('wykres5.png'), format='png', bbox_inches='tight')
 plt.show()
 
 
@@ -153,5 +154,5 @@ ax.set_xticks(reduced.time.iloc[indices])
 ax.set_xticklabels(reduced.time.iloc[indices].dt.strftime('%Y-%m'), rotation=45, fontsize=8)
 plt.title(r'Szereg z uśrednionymi obserwacjami odstającymi', loc='center')
 plt.tight_layout()
-plt.savefig('wykres6.png', format='png', bbox_inches='tight')
+plt.savefig(output('wykres6.png'), format='png', bbox_inches='tight')
 plt.show()
