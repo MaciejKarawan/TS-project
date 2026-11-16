@@ -1,3 +1,4 @@
+from beer_timeseries.paths import TABLES, output
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -13,7 +14,7 @@ from statsmodels.tsa.stattools import arma_order_select_ic
 import pyreadr
 import plotly.graph_objects as go
 import matplotlib.dates as mdates
-from dm_test import dm_test
+from beer_timeseries.dm_test import dm_test
 from scipy import stats
 from scipy.special import  inv_boxcox
 
@@ -154,7 +155,7 @@ plt.ylabel('Megalitry')
 plt.gca().xaxis.set_major_locator(mdates.YearLocator(1))  # Znaczniki co rok
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
 plt.tight_layout()
-plt.savefig('wykres1.png', format='png', bbox_inches='tight')
+plt.savefig(output('wykres1.png'), format='png', bbox_inches='tight')
 plt.show()
 '''
 
@@ -230,7 +231,7 @@ fig, ax = plt.subplots(figsize=(8,5))
 sm.qqplot(decomposition_resid, line='45', fit=True, ax=ax)
 plt.suptitle('Wykres qqplot dla reszt')
 plt.tight_layout()
-#plt.savefig('wykres5.png', format='png', bbox_inches='tight')
+#plt.savefig(output('wykres5.png'), format='png', bbox_inches='tight')
 plt.show()
 
 
@@ -239,7 +240,7 @@ ax.plot(np.arange(n), decomposition_resid)
 ax.scatter([3,7,59], decomposition.resid.reset_index().iloc[[3,7,59],1], color='red')
 plt.suptitle(f'Wartości dla których Z > 2.9')
 plt.tight_layout()
-#plt.savefig('wykres6.png', format='png', bbox_inches='tight')
+#plt.savefig(output('wykres6.png'), format='png', bbox_inches='tight')
 plt.show()
 '''
 
@@ -325,7 +326,7 @@ fig, ax = plt.subplots(figsize=(8,5))
 sm.qqplot(reg_noise, line='45', fit=True, ax=ax)
 plt.suptitle('Wykres qqplot dla reszt')
 plt.tight_layout()
-#plt.savefig('wykres5.png', format='png', bbox_inches='tight')
+#plt.savefig(output('wykres5.png'), format='png', bbox_inches='tight')
 plt.show()
 
 
@@ -334,7 +335,7 @@ ax.plot(np.arange(n), reg_noise)
 ax.scatter([3,7,59], reg_noise_og.reset_index().iloc[[3,7,59],1], color='red')
 plt.suptitle(f'Wartości dla których Z > 2.9')
 plt.tight_layout()
-#plt.savefig('wykres6.png', format='png', bbox_inches='tight')
+#plt.savefig(output('wykres6.png'), format='png', bbox_inches='tight')
 plt.show()
 '''
 
@@ -401,7 +402,7 @@ for d in k:
     sm.qqplot(polyreg[d]['s_noise'], line='45', fit=True, ax=ax)
     plt.suptitle('Wykres qqplot dla reszt')
     plt.tight_layout()
-    #plt.savefig('wykres5.png', format='png', bbox_inches='tight')
+    #plt.savefig(output('wykres5.png'), format='png', bbox_inches='tight')
     plt.show()
 
     fig, ax = plt.subplots(figsize=(8,5))
@@ -409,7 +410,7 @@ for d in k:
     ax.scatter([3,7,59], polyreg[d]['noise'].reset_index().iloc[[3,7,59],1], color='red')
     plt.suptitle(f'Wartości dla których Z > 2.9')
     plt.tight_layout()
-    #plt.savefig('wykres6.png', format='png', bbox_inches='tight')
+    #plt.savefig(output('wykres6.png'), format='png', bbox_inches='tight')
     plt.show()
     
 '''
@@ -426,7 +427,7 @@ ax[1].set_title('Składowa sezonowa')
 sns.lineplot(polyreg[d]['s_noise'], ax=ax[2], color='darkblue')
 ax[2].set_title('Szum')
 plt.tight_layout()
-plt.savefig('wykres2.png', format='png', bbox_inches='tight')
+plt.savefig(output('wykres2.png'), format='png', bbox_inches='tight')
 plt.show()
 
 
@@ -436,7 +437,7 @@ sns.lineplot(x=t, y=data['value'], color='black', label='values')
 sns.lineplot(polyreg[d]['trend'] + polyreg[d]['season'], color='red', alpha=0.8, label='model')
 plt.title('Porównanie wartości przybliżonych modelem z prawdziwymi', loc='center')
 plt.tight_layout()
-plt.savefig('wykres3.png', format='png', bbox_inches='tight')
+plt.savefig(output('wykres3.png'), format='png', bbox_inches='tight')
 plt.show()
 
 fig, ax = plt.subplots(2, 1, sharex=True, figsize=(8,5))
@@ -446,7 +447,7 @@ ax[0].set_title('ACF')
 plot_pacf(polyreg[d]['noise'], ax=ax[1], color='darkblue')
 ax[1].set_title('PACF')
 plt.tight_layout()
-plt.savefig('wykres4.png', format='png', bbox_inches='tight')
+plt.savefig(output('wykres4.png'), format='png', bbox_inches='tight')
 plt.show()
 '''
 
@@ -454,8 +455,8 @@ plt.show()
 ### Eksport danych
 decompose_poly2 = pd.DataFrame({'trend': polyreg[2]['trend'], 'season':polyreg[2]['season'], 'noise':polyreg[2]['noise'], 's_noise':polyreg[2]['s_noise']})
 #decompose_poly3 = pd.DataFrame({'trend': polyreg[3]['trend'], 'season':polyreg[3]['season'], 'noise':polyreg[3]['noise']})
-decompose_poly2.to_csv('decompose_poly2.csv')
-#decompose_poly3.to_csv('decompose_poly3.csv')
+decompose_poly2.to_csv(output('decompose_poly2.csv'))
+#decompose_poly3.to_csv(output('decompose_poly3.csv'))
 '''
 
 
@@ -507,7 +508,7 @@ for d in k:
     sm.qqplot(localreg_s_noise[d], line='45', fit=True, ax=ax)
     plt.suptitle('Wykres qqplot dla reszt')
     plt.tight_layout()
-    #plt.savefig('wykres5.png', format='png', bbox_inches='tight')
+    #plt.savefig(output('wykres5.png'), format='png', bbox_inches='tight')
     plt.show()
 
     fig, ax = plt.subplots(figsize=(8,5))
@@ -515,7 +516,7 @@ for d in k:
     ax.scatter([3,7,59], localreg_noise[d].reset_index().iloc[[3,7,59],1], color='red')
     plt.suptitle(f'Wartości dla których Z > 2.9')
     plt.tight_layout()
-    #plt.savefig('wykres6.png', format='png', bbox_inches='tight')
+    #plt.savefig(output('wykres6.png'), format='png', bbox_inches='tight')
     plt.show()
     
 '''
